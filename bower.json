@@ -1,0 +1,21 @@
+{
+  "name": "bahn-check",
+  "description": "",
+  "main": "gulpfile.babel.js",
+  "authors": [
+    "mraerino <melodie124@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "^5.0.0"
+  }
+}
