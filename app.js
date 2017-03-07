@@ -15,29 +15,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollContainer = document.getElementById('map_scroller');
     const mapTopDist = scrollContainer.getBoundingClientRect().top;
     const target = document.getElementById('map_shield');
+    const zoomListener = function(mod) {
+        const oldSize = {
+            width: target.getBoundingClientRect().width,
+            height: target.getBoundingClientRect().height
+        };
+
+        size += mod;
+        map_wrapper.style.width = size + 'px';
+
+        // zoom to center of viewport
+        const oldCenterX = scrollContainer.scrollLeft + winWidth/2;
+        const oldCenterY = document.body.scrollTop - mapTopDist + winHeight;
+        const ratioX = oldCenterX / oldSize.width;
+        const ratioY = oldCenterY / oldSize.height;
+        const newCenterX = size * ratioX;
+        const newCenterY = target.getBoundingClientRect().height * ratioY;
+        scrollContainer.scrollLeft += (newCenterX - oldCenterX)/2;
+        document.body.scrollTop += (newCenterY - oldCenterY)/2;
+    };
+
     target.addEventListener('wheel', e => {
         if(e.ctrlKey) {
             e.stopPropagation();
             e.preventDefault();
 
-            const oldSize = {
-                width: target.getBoundingClientRect().width,
-                height: target.getBoundingClientRect().height
-            };
-
-            const mod = -1 * e.deltaY * 4;
-            size += mod;
-            map_wrapper.style.width = size + 'px';
-
-            // zoom to center of viewport
-            const oldCenterX = scrollContainer.scrollLeft + winWidth/2;
-            const oldCenterY = document.body.scrollTop - mapTopDist + winHeight;
-            const ratioX = oldCenterX / oldSize.width;
-            const ratioY = oldCenterY / oldSize.height;
-            const newCenterX = size * ratioX;
-            const newCenterY = target.getBoundingClientRect().height * ratioY;
-            scrollContainer.scrollLeft += (newCenterX - oldCenterX)/2;
-            document.body.scrollTop += (newCenterY - oldCenterY)/2;
+            zoomListener(-1 * e.deltaY * 4);
         }
     });
 
