@@ -1,0 +1,23 @@
+#Plan
+  #S-Bahn-Linien, #RB_x5F_Linien, #RE_x5F_Linien
+    .disabled
+      line, polyline, path
+        stroke: #ccc !important
+
+      polygon
+        fill: #ccc !important
+
+    line, polyline, path
+      &.disabled
+        stroke: #ccc !important
+
+    polygon
+      &.disabled
+        fill: #ccc !important
+
+  #Linien-Bezeichnungen
+    g:first-child > path
+      fill: #ccc !important
+
+  #Labels_x5F_Endhaltestellen
+    display: none
