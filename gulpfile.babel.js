@@ -4,6 +4,8 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import sass from 'node-sass';
 const $ = gulpLoadPlugins();
 
+const dist = 'dist';
+
 gulp.task('serve', ['map'], () => {
     browserSync.init({
         server: {
@@ -38,7 +40,13 @@ gulp.task('map', () => {
             });
             return content;
         }))
-        .pipe(gulp.dest('.tmp'));
+        .pipe(gulp.dest('.tmp'))
+        .pipe(gulp.dest(dist));
 });
 
-gulp.task('default', ['map']);
+gulp.task('build', ['map'], () => {
+    return gulp.src(['bower_components/**/*', 'data/**/*', 'index.html', 'main.css', 'app.js'], { base: './' })
+        .pipe(gulp.dest(dist));
+});
+
+gulp.task('default', ['build']);
