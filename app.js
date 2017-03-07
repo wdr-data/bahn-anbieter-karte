@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let provider_lines = {};
+    let provider_colors = {};
     const make_controls = function() {
         const data = provider_lines;
         const container = document.getElementById('controls');
@@ -48,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.keys(data).forEach(item => {
             const el = document.createElement('li');
             el.textContent = item;
+            const span = document.createElement('span');
+            const color = provider_colors[item];
+            span.style.backgroundColor = color;
+            el.insertBefore(span, el.childNodes[0]);
             el.addEventListener('click', e => {
                 chose_provider(e.target.textContent);
             });
@@ -82,6 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(data => {
             provider_lines = data;
+        })
+        .then(() => fetch('data/provider_color.json'))
+        .then(res => res.json())
+        .then(data => {
+            provider_colors = data;
+        })
+        .then(() => {
             make_controls();
         });
 });
