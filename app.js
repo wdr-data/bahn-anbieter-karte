@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
             height: target.getBoundingClientRect().height
         };
 
+        if(size + mod < winWidth) {
+            return;
+        }
+
         size += mod;
         map_wrapper.style.width = size + 'px';
 
