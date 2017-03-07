@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // remove click delay on mobile
+    FastClick.attach(document.body);
 
     // prepare map layout
     const default_width = 1000;
@@ -53,16 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const color = provider_colors[item];
             span.style.backgroundColor = color;
             el.insertBefore(span, el.childNodes[0]);
-            el.addEventListener('tap', e => {
+            el.addEventListener('click', e => {
                 chose_provider(e.target.textContent);
             });
             list.appendChild(el);
         });
 
         // Show all button
-        container.getElementsByClassName('showAll')[0].addEventListener('tap', e => {
-            chose_provider("");
-        });
+        container.getElementsByClassName('showAll')[0]
+            .addEventListener('click', e => {
+                chose_provider("");
+            });
     };
 
     const chose_provider = function(key) {
