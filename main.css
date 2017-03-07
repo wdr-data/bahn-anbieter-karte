@@ -57,6 +57,7 @@
     border-radius: 3px;
     margin-bottom: 5px;
     vertical-align: top;
+    user-select: none;
 }
 
 #controls ul li span {
