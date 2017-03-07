@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             list.appendChild(el);
         });
+
+        // Show all button
+        container.getElementsByClassName('showAll')[0].addEventListener('click', e => {
+            chose_provider("");
+        });
     };
 
     const chose_provider = function(key) {
@@ -68,10 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Disabling", line);
                 const elem = svg.getElementById(line);
                 if(elem) {
-                    elem.classList.add('disabled');
+                    if(key !== "") {
+                        elem.classList.add('disabled');
+                    } else {
+                        elem.classList.remove('disabled');
+                    }
                 }
             });
         });
+
+        if(key == "") {
+            return;
+        }
 
         provider_lines[key].forEach(line => {
             const elem = svg.getElementById(line);

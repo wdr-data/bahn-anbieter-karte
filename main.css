@@ -39,15 +39,18 @@
     bottom: 10px;
     max-width: 250px;
     color: white;
+    padding: 5px;
+    box-sizing: border-box;
 }
 
 #controls ul {
     list-style: none;
-    margin: 5px;
     padding: 0;
+    margin: 0;
 }
 
-#controls ul li {
+#controls ul li, #controls .showAll {
+    display: block;
     background-color: rgba(0,0,0,0.8);
     cursor: pointer;
     padding: 10px;
