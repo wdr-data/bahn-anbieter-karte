@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const mod = -1 * e.deltaY * 4;
-            console.log(mod);
             size += mod;
             map_wrapper.style.width = size + 'px';
 
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Object.keys(provider_lines).forEach(provider => {
             provider_lines[provider].forEach(line => {
-                console.log("Disabling", line);
                 const elem = svg.getElementById(line);
                 if(elem) {
                     if(key !== "") {
@@ -99,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         provider_lines[key].forEach(line => {
             const elem = svg.getElementById(line);
-            console.log("Enabling", line);
             if(elem) {
                 elem.classList.remove('disabled');
             }
