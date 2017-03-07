@@ -53,14 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const color = provider_colors[item];
             span.style.backgroundColor = color;
             el.insertBefore(span, el.childNodes[0]);
-            el.addEventListener('click', e => {
+            el.addEventListener('tap', e => {
                 chose_provider(e.target.textContent);
             });
             list.appendChild(el);
         });
 
         // Show all button
-        container.getElementsByClassName('showAll')[0].addEventListener('click', e => {
+        container.getElementsByClassName('showAll')[0].addEventListener('tap', e => {
             chose_provider("");
         });
     };
