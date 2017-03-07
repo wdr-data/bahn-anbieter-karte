@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // fetch data
-    fetch('data.json')
+    fetch('data/provider_lines.json')
         .then(res => res.json())
         .then(data => {
             provider_lines = data;
