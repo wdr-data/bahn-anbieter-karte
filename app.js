@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // zoom to center of viewport
             const oldCenterX = scrollContainer.scrollLeft + winWidth/2;
-            const oldCenterY = document.body.scrollTop - mapTopDist + (winHeight)/2;
+            const oldCenterY = document.body.scrollTop - mapTopDist + winHeight;
             const ratioX = oldCenterX / oldSize.width;
             const ratioY = oldCenterY / oldSize.height;
             const newCenterX = size * ratioX;
             const newCenterY = target.getBoundingClientRect().height * ratioY;
-            scrollContainer.scrollLeft += (newCenterX - oldCenterX);
-            document.body.scrollTop += (newCenterY - oldCenterY);
+            scrollContainer.scrollLeft += (newCenterX - oldCenterX)/2;
+            document.body.scrollTop += (newCenterY - oldCenterY)/2;
         }
     });
 });
