@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const winHeight = window.innerHeight;
 
     const map = document.getElementById('map');
+    const controls = document.getElementById('controls');
     const map_wrapper = document.getElementById('map_wrapper');
     const scrollContainer = document.getElementById('map_scroller');
     const mapTopDist = scrollContainer.getBoundingClientRect().top;
@@ -45,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let provider_colors = {};
     const make_controls = function() {
         const data = provider_lines;
-        const container = document.getElementById('controls');
-        const list = container.getElementsByTagName('ul')[0];
+        const list = controls.getElementsByTagName('ul')[0];
         list.innerHTML = "";
         Object.keys(data).forEach(item => {
             const el = document.createElement('li');
@@ -62,13 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Show all button
-        container.getElementsByClassName('showAll')[0]
+        controls.getElementsByClassName('showAll')[0]
             .addEventListener('click', e => {
                 chose_provider("");
+            });
+
+        // Dropdown functionality
+        controls.getElementsByClassName('dropdown')[0]
+            .addEventListener('click', e => {
+                controls.getElementsByClassName('list')[0].classList.toggle('open');
             });
     };
 
     const chose_provider = function(key) {
+        controls.getElementsByClassName('list')[0].classList.remove('open');
+
         const svg = map.getSVGDocument();
 
         Object.keys(provider_lines).forEach(provider => {

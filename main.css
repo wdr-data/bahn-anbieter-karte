@@ -39,8 +39,19 @@
     bottom: 10px;
     max-width: 250px;
     color: white;
-    padding: 5px;
+    margin: 5px;
     box-sizing: border-box;
+    overflow: hidden;
+}
+
+#controls .list {
+    transform: translateY(+120%);
+    overflow: hidden;
+    transition: transform 500ms, opacity 250ms;
+}
+
+#controls .list.open {
+    transform: translateY(0);
 }
 
 #controls ul {
@@ -49,7 +60,7 @@
     margin: 0;
 }
 
-#controls ul li, #controls .showAll {
+#controls ul li, #controls .showAll, #controls .dropdown {
     display: block;
     background-color: rgba(0,0,0,0.8);
     cursor: pointer;
@@ -66,4 +77,10 @@
     display: inline-block;
     margin-right: 8px;
     margin-bottom: -4px;
+}
+
+#controls .dropdown {
+    position: relative;
+    z-index: 100;
+    margin-bottom: 0;
 }
