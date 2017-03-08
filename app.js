@@ -3,14 +3,30 @@ document.addEventListener('DOMContentLoaded', () => {
     FastClick.attach(document.body);
 
     const positionMap = function(x, y) {
-        mapPosition.x = x;
-        mapPosition.y = y;
-        map.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+        mapPosition.x = Math.max(Math.min(x, mapXmax), mapXmin);
+        mapPosition.y = Math.max(Math.min(y, mapYmax), mapYmin);
+        map.style.transform = 'translate(' + mapPosition.x + 'px,' + mapPosition.y + 'px)';
     };
+    let mapXmin, mapYmin, mapXmax, mapYmax;
     const scaleMap = function(w) {
         mapPosition.w = w;
         map.style.width = w + 'px';
         mapPosition.h = map.getBoundingClientRect().height;
+
+        mapXmax = 0;
+        mapYmax = 0;
+        mapXmin = -1 * (mapPosition.w - winWidth);
+        mapYmin = -1 * (mapPosition.h - winHeight);
+
+        if(mapPosition.w < winWidth || mapPosition.h < winHeight) {
+            if(winRatio > ratio) {
+                mapXmax = Math.floor((winWidth - mapPosition.w) / 2);
+                mapXmin = Math.floor(mapXmin / 2);
+            } else {
+                mapYmax = Math.floor((winHeight - mapPosition.h) / 2);
+                mapYmin = Math.floor(mapYmin / 2);
+            }
+        }
     };
 
     // prepare map layout
@@ -123,11 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ratio = mapBB.width / mapBB.height;
         if(winRatio > ratio) {
             scaleMap(winHeight * ratio);
-            positionMap(Math.floor((winWidth - mapPosition.w) / 2), 0);
         } else {
             scaleMap(winWidth);
-            positionMap(0, Math.floor((winHeight - mapPosition.h) / 2));
         }
+        positionMap(mapXmax, mapYmax);
 
         const target = document.getElementById('map_shield');
         target.addEventListener('wheel', e => {
