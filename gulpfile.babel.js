@@ -49,7 +49,7 @@ gulp.task('map', () => {
 });
 
 gulp.task('build', ['map'], () => {
-    return gulp.src(['bower_components/**/*', 'data/**/*', 'index.html', 'main.css', 'app.js'], { base: './' })
+    return gulp.src(['bower_components/**/*', 'data/**/*', 'index.html', 'main.css', 'app.js', 'modal.js'], { base: './' })
         .pipe(gulp.dest(dist));
 });
 
