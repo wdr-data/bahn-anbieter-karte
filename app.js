@@ -8,11 +8,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const winWidth = window.innerWidth;
     const winHeight = window.innerHeight;
+    const winRatio = winWidth / winHeight;
 
     const map = document.getElementById('map');
     const controls = document.getElementById('controls');
     const map_wrapper = document.getElementById('map_wrapper');
     const scrollContainer = document.getElementById('map_scroller');
+
+    let mapPosition = { x: 0, y: 0, w: 0, h: 0 };
+    let ratio = 1;
+    const positionMap = function(x, y) {
+        mapPosition.x = x;
+        mapPosition.y = y;
+        map.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    };
+    const scaleMap = function(w) {
+        mapPosition.w = w;
+        map.style.width = w + 'px';
+        mapPosition.h = map.getBoundingClientRect().height;
+    };
+
+    map.addEventListener('load', e => {
+        // adjust initial map position
+        const mapBB = map.getBoundingClientRect();
+        ratio = mapBB.width / mapBB.height;
+        if(winRatio > ratio) {
+            scaleMap(winHeight * ratio);
+            positionMap(Math.floor((winWidth - mapPosition.w) / 2), 0);
+        } else {
+            scaleMap(winWidth);
+            positionMap(0, Math.floor((winHeight - mapPosition.h) / 2));
+        }
+    });
+
     const mapTopDist = scrollContainer.getBoundingClientRect().top;
     const target = document.getElementById('map_shield');
     const zoomListener = function(mod) {
