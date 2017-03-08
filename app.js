@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         positionMap(x, y);
     };
 
+    const dragListener = function(e) {
+        positionMap(mapPosition.x + e.dx, mapPosition.y + e.dy);
+    };
+
     let provider_lines = {};
     let provider_colors = {};
     const make_controls = function() {
@@ -125,12 +129,19 @@ document.addEventListener('DOMContentLoaded', () => {
             positionMap(0, Math.floor((winHeight - mapPosition.h) / 2));
         }
 
-        document.getElementById('map_shield').addEventListener('wheel', e => {
+        const target = document.getElementById('map_shield');
+        target.addEventListener('wheel', e => {
             e.stopPropagation();
             e.preventDefault();
 
             zoomListener(-1 * e.deltaY * 2);
         });
+
+        // map dragging
+        interact(target)
+            .draggable({
+                onmove: dragListener
+            });
 
         make_controls();
     };
