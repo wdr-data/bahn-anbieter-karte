@@ -35,15 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const scaleRatio = width / mapPosition.w;
 
-        const oldCenterX = winWidth / 2 - mapPosition.x;
-        const oldCenterY = winHeight / 2 - mapPosition.y;
-        const newCenterX = oldCenterX * scaleRatio;
-        const newCenterY = oldCenterY * scaleRatio;
-        const deltaX = oldCenterX - newCenterX;
-        const deltaY = oldCenterY - newCenterY;
+        /**
+         * Derived from:
+         * oldCenter - newCenter + mapPosition
+         * (where newCenter = oldCenter * scaleRatio)
+        const x = (winWidth / 2 - mapPosition.x) - (winWidth / 2 - mapPosition.x) * scaleRatio + mapPosition.x;
+        const y = (winHeight / 2 - mapPosition.y) - (winHeight / 2 - mapPosition.y) * scaleRatio + mapPosition.y;
+         */
+        const x = (1-scaleRatio) * (winWidth/2) + scaleRatio * mapPosition.x;
+        const y = (1-scaleRatio) * (winHeight/2) + scaleRatio * mapPosition.y;
 
         scaleMap(width);
-        positionMap(mapPosition.x + deltaX, mapPosition.y + deltaY);
+        positionMap(x, y);
     };
 
     let provider_lines = {};
