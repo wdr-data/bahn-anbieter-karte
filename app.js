@@ -2,21 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // remove click delay on mobile
     FastClick.attach(document.body);
 
-    // prepare map layout
-    const default_width = 1000;
-    let size = default_width;
-
-    const winWidth = window.innerWidth;
-    const winHeight = window.innerHeight;
-    const winRatio = winWidth / winHeight;
-
-    const map = document.getElementById('map');
-    const controls = document.getElementById('controls');
-    const map_wrapper = document.getElementById('map_wrapper');
-    const scrollContainer = document.getElementById('map_scroller');
-
-    let mapPosition = { x: 0, y: 0, w: 0, h: 0 };
-    let ratio = 1;
     const positionMap = function(x, y) {
         mapPosition.x = x;
         mapPosition.y = y;
@@ -28,53 +13,38 @@ document.addEventListener('DOMContentLoaded', () => {
         mapPosition.h = map.getBoundingClientRect().height;
     };
 
-    map.addEventListener('load', e => {
-        // adjust initial map position
-        const mapBB = map.getBoundingClientRect();
-        ratio = mapBB.width / mapBB.height;
-        if(winRatio > ratio) {
-            scaleMap(winHeight * ratio);
-            positionMap(Math.floor((winWidth - mapPosition.w) / 2), 0);
-        } else {
-            scaleMap(winWidth);
-            positionMap(0, Math.floor((winHeight - mapPosition.h) / 2));
-        }
-    });
+    // prepare map layout
+    const map = document.getElementById('map');
+    const controls = document.getElementById('controls');
 
-    const mapTopDist = scrollContainer.getBoundingClientRect().top;
-    const target = document.getElementById('map_shield');
+    let mapPosition = { x: 0, y: 0, w: 0, h: 0 };
+    let ratio = 1;
+    let winWidth, winHeight, winRatio;
+    const resizeHandler = function() {
+        winWidth = window.innerWidth;
+        winHeight = window.innerHeight;
+        winRatio = winWidth / winHeight;
+    };
+    window.addEventListener('resize', resizeHandler);
+
     const zoomListener = function(mod) {
-        const oldSize = {
-            width: target.getBoundingClientRect().width,
-            height: target.getBoundingClientRect().height
-        };
-
-        if(size + mod < winWidth) {
+        const width = mapPosition.w + mod;
+        if(width < winWidth && width / ratio < winHeight) {
             return;
         }
 
-        size += mod;
-        map_wrapper.style.width = size + 'px';
+        const scaleRatio = width / mapPosition.w;
 
-        // zoom to center of viewport
-        const oldCenterX = scrollContainer.scrollLeft + winWidth/2;
-        const oldCenterY = document.body.scrollTop - mapTopDist + winHeight;
-        const ratioX = oldCenterX / oldSize.width;
-        const ratioY = oldCenterY / oldSize.height;
-        const newCenterX = size * ratioX;
-        const newCenterY = target.getBoundingClientRect().height * ratioY;
-        scrollContainer.scrollLeft += (newCenterX - oldCenterX)/2;
-        document.body.scrollTop += (newCenterY - oldCenterY)/2;
+        const oldCenterX = winWidth / 2 - mapPosition.x;
+        const oldCenterY = winHeight / 2 - mapPosition.y;
+        const newCenterX = oldCenterX * scaleRatio;
+        const newCenterY = oldCenterY * scaleRatio;
+        const deltaX = oldCenterX - newCenterX;
+        const deltaY = oldCenterY - newCenterY;
+
+        scaleMap(width);
+        positionMap(mapPosition.x + deltaX, mapPosition.y + deltaY);
     };
-
-    target.addEventListener('wheel', e => {
-        if(e.ctrlKey) {
-            e.stopPropagation();
-            e.preventDefault();
-
-            zoomListener(-1 * e.deltaY * 4);
-        }
-    });
 
     let provider_lines = {};
     let provider_colors = {};
@@ -138,18 +108,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // fetch data
-    fetch('data/provider_lines.json')
-        .then(res => res.json())
-        .then(data => {
-            provider_lines = data;
-        })
-        .then(() => fetch('data/provider_color.json'))
-        .then(res => res.json())
-        .then(data => {
-            provider_colors = data;
-        })
-        .then(() => {
-            make_controls();
+    const init = function() {
+        resizeHandler();
+
+        // adjust initial map position
+        const mapBB = map.getBoundingClientRect();
+        ratio = mapBB.width / mapBB.height;
+        if(winRatio > ratio) {
+            scaleMap(winHeight * ratio);
+            positionMap(Math.floor((winWidth - mapPosition.w) / 2), 0);
+        } else {
+            scaleMap(winWidth);
+            positionMap(0, Math.floor((winHeight - mapPosition.h) / 2));
+        }
+
+        document.getElementById('map_shield').addEventListener('wheel', e => {
+            e.stopPropagation();
+            e.preventDefault();
+
+            zoomListener(-1 * e.deltaY * 2);
         });
+
+        make_controls();
+    };
+
+    Promise.all([
+        new Promise(resolve => {
+            map.addEventListener('load', e => {
+                resolve();
+            });
+        }),
+        fetch('data/provider_lines.json')
+            .then(res => res.json())
+            .then(data => {
+                provider_lines = data;
+            }),
+        fetch('data/provider_color.json')
+            .then(res => res.json())
+            .then(data => {
+                provider_colors = data;
+            })
+    ]).then(() => {
+        init();
+    });
 });
