@@ -17,13 +17,17 @@ gulp.task('serve', ['map'], () => {
     gulp.watch(['map.svg', 'map.sass'], ['map', browserSync.reload]);
 });
 
+// WARNING: Uses regex, please escape reserved characters
 const idReplacements = {
-    'RB33': 'RB33_2',
-    'RB33_2_': 'RB33',
-    'RE57': 'RE57_2',
-    'RE57_1_': 'RE57',
-    'RB91': 'RB91_1',
-    'RB91_1_': 'RB91'
+    'id="RB33"': 'id="RB33_2"',
+    'id="RB33_2_"': 'id="RB33"',
+    'id="RE57"': 'id="RE57_2"',
+    'id="RE57_1_"': 'id="RE57"',
+    'id="RB91"': 'id="RB91_1"',
+    'id="RB91_1_"': 'id="RB91"',
+    'id="IC01"': 'id="IC01_1"',
+    'id="IC01_1_"': 'id="IC01"',
+    'font-family="\'Magra-Bold\'"': "font-family=\"'Magra'\" font-weight=\"700\""
 };
 gulp.task('map', () => {
     return gulp.src('map.svg')
@@ -36,7 +40,7 @@ gulp.task('map', () => {
         .pipe($.change(content => {
             Object.keys(idReplacements).forEach(from => {
                 const to = idReplacements[from];
-                content = content.replace('id="'+from+'"', 'id="' + to + '"');
+                content = content.replace(new RegExp(from, 'g'), to);
             });
             return content;
         }))
