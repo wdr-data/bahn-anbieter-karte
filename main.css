@@ -134,26 +134,27 @@ html, body {
     cursor: pointer;
 }
 
-.icon {
-  display: inline-block;
-  width: 3em;
-  height: 3em;
-  stroke-width: 0;
-  stroke: white;
-  fill: white;
-}
-.icon-info-circle {
+#myIcn {
+    z-index: 200;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 3em;
+    width: 3em;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 1.5em;
+    cursor: pointer;
 }
 
-#myIcn{
-  z-index: 200;
-  display: block;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: rgba(0,0,0,0.8);
-  padding: 5px 10px;
-  border-radius: 5px;
+#myIcn .icon {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    stroke-width: 0;
+    stroke: white;
+    fill: white;
+    margin: 0.5em 0 0.5em 1em;
 }
 
 @media only screen and (min-width: 768px) {
