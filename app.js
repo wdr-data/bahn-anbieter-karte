@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // remove click delay on mobile
     FastClick.attach(document.body);
 
+    const maxWidth = 5000;
+
     const positionMap = function(x, y) {
         mapPosition.x = Math.max(Math.min(x, mapXmax), mapXmin);
         mapPosition.y = Math.max(Math.min(y, mapYmax), mapYmin);
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const zoomListener = function(mod) {
         const width = mapPosition.w + mod;
-        if(width < winWidth && width / ratio < winHeight) {
+        if((width < winWidth && width / ratio < winHeight) || width > maxWidth) {
             return;
         }
 
