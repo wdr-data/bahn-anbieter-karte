@@ -150,11 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         positionMap(mapPosition.x + e.dx, mapPosition.y + e.dy);
     };
 
-    const resizeListener = function(e) {
-        const mod = (e.scale - 1) * mapPosition.w;
-        zoomListener(Math.floor(mod / 4));
-    };
-
+    let lastScale = 1;
     const init = function() {
         resizeHandler();
 
@@ -186,7 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const hammertime = Hammer(target);
         hammertime.get('pinch').set({ enable: true });
-        hammertime.on('pinch', resizeListener);
+        hammertime.on('pinch', e => {
+            const scaleDelta = e.scale - lastScale;
+            lastScale = e.scale;
+
+            const mod = scaleDelta * mapPosition.w;
+            zoomListener(mod);
+        });
+        hammertime.on('pinchend', () => {
+            lastScale = 1;
+        });
 
         make_controls();
     };
