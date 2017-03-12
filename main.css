@@ -115,6 +115,11 @@ html, body {
     border-radius: 5px;
 }
 
+.modal-content a {
+    color: white;
+    font-weight: bold;
+}
+
 .modal.open{
   display: block;
 }
