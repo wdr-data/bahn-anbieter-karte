@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
         document.body.addEventListener('click', e => {
-            if(e.path.indexOf(controls) === -1 || e.target == controls) {
+            if(!controls.contains(e.target) || e.target == controls) {
                 controls.classList.remove('open');
             }
         });
