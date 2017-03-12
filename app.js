@@ -67,10 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         positionMap(x, y);
     };
 
-    const dragListener = function(e) {
-        positionMap(mapPosition.x + e.dx, mapPosition.y + e.dy);
-    };
-
     let provider_lines = {};
     let provider_colors = {};
     const make_controls = function() {
@@ -139,6 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const dragListener = function(e) {
+        positionMap(mapPosition.x + e.dx, mapPosition.y + e.dy);
+    };
+
+    const resizeListener = function(e) {
+        const mod = (e.scale - 1) * mapPosition.w;
+        zoomListener(Math.floor(mod / 4));
+    };
+
     const init = function() {
         resizeHandler();
 
@@ -165,6 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .draggable({
                 onmove: dragListener
             });
+
+        const hammertime = Hammer(target);
+        hammertime.get('pinch').set({ enable: true });
+        hammertime.on('pinch', resizeListener);
 
         make_controls();
     };
