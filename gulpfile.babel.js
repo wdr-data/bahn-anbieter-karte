@@ -52,13 +52,18 @@ gulp.task('map', () => {
         .pipe(gulp.dest(dist));
 });
 
+gulp.task('scripts', () => {
+    return gulp.src(['app.js', 'modal.js'])
+        .pipe($.babel())
+        .pipe(gulp.dest(dist));
+});
+
 gulp.task('build', ['map'], () => {
     return gulp.src([
         'bower_components/**/*',
         'data/**/*',
         'index.html',
         'main.css',
-        'app.js', 'modal.js',
         'images/**/*',
         'fonts/**/*'
     ], { base: './' })
