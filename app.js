@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Promise.all([
         new Promise(resolve => {
-            map.addEventListener('load', e => {
+            map.addEventListener('load', () => {
                 resolve();
             });
         }),
@@ -177,7 +177,5 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 provider_colors = data;
             })
-    ]).then(() => {
-        init();
-    });
+    ]).then(init);
 });
