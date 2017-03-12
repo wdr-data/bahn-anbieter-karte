@@ -11,6 +11,11 @@ const span = document.getElementsByClassName("close")[0];
 btn.onclick = function() {
     modal.classList.add("open");
 };
+btn.addEventListener('keypress', function(e) {
+    if(e.keyCode == 13 || e.keyCode == 32) {
+        modal.classList.add("open");
+    }
+});
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
