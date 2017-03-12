@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'WDRSlab Regular';
+    src: url(wdrslab-regularvz-v101-web.eot);
+    src: url(wdrslab-regularvz-v101-web.eot?#iefix) format('embedded-opentype'), url(wdrslab-regularvz-v101-web.woff) format('woff'), url(wdrslab-regularvz-v101-web.ttf) format('truetype'), url(wdrslab-regularvz-v101-web.svg) format('svg')
+}
+
+@font-face {
+    font-family: 'WDRSlab Bold';
+    src: url(wdrslab-boldvz-v101-web.eot);
+    src: url(wdrslab-boldvz-v101-web.eot?#iefix) format('embedded-opentype'), url(wdrslab-boldvz-v101-web.woff) format('woff'), url(wdrslab-boldvz-v101-web.ttf) format('truetype'), url(wdrslab-boldvz-v101-web.svg) format('svg')
+}
+
+@font-face {
+    font-family: Thesis;
+    src: url(TheSans_LT_TT5_.eot#);
+    src: url(TheSans_LT_TT5_.woff) format('woff'), url(TheSans_LT_TT5_.svg) format('svg');
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: Thesis;
+    src: url(TheSans_LT_TT7_.eot#);
+    src: url(TheSans_LT_TT7_.woff) format('woff'), url(TheSans_LT_TT7_.svg) format('svg');
+    font-weight: 700;
+    font-style: normal
+}

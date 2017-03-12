@@ -55,7 +55,8 @@ gulp.task('build', ['map'], () => {
         'index.html',
         'main.css',
         'app.js', 'modal.js',
-        'images/**/*'
+        'images/**/*',
+        'fonts/**/*'
     ], { base: './' })
         .pipe(gulp.dest(dist));
 });
