@@ -20,6 +20,7 @@
     "fastclick": "^1.0.6",
     "interactjs": "^1.2.8",
     "fetch": "^2.0.3",
-    "hammerjs": "hammer.js#^2.0.8"
+    "hammerjs": "hammer.js#^2.0.8",
+    "es6-promise": "^4.0.5"
   }
 }
