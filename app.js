@@ -97,12 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dropdown functionality
         controls.getElementsByClassName('dropdown')[0]
             .addEventListener('click', e => {
-                controls.getElementsByClassName('list')[0].classList.toggle('open');
+                controls.classList.toggle('open');
             });
+
+        document.body.addEventListener('click', e => {
+            if(e.path.indexOf(controls) === -1 || e.target == controls) {
+                controls.classList.remove('open');
+            }
+        });
     };
 
     const chose_provider = function(key) {
-        controls.getElementsByClassName('list')[0].classList.remove('open');
+        controls.classList.remove('open');
 
         const svg = map.getSVGDocument();
 
