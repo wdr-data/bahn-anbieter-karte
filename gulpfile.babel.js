@@ -55,10 +55,11 @@ gulp.task('map', () => {
 gulp.task('scripts', () => {
     return gulp.src(['app.js', 'modal.js'])
         .pipe($.babel())
+        .pipe($.uglify())
         .pipe(gulp.dest(dist));
 });
 
-gulp.task('build', ['map'], () => {
+gulp.task('build', ['scripts', 'map'], () => {
     return gulp.src([
         'bower_components/**/*',
         'data/**/*',
