@@ -148,6 +148,39 @@ a:hover {
     background-color: rgba(255,255,255,0.8); /* Black w/ opacity */
 }
 
+.modal .header {
+    padding: 20px 50px 20px 20px;
+    background-color: rgba(0, 52, 94, 0.7);
+    overflow: hidden;
+    position: relative;
+}
+
+.modal .header .logo {
+    text-decoration: none;
+    border: none;
+    display: block;
+    float: left;
+}
+.modal .header .logo img {
+    height: 30px;
+}
+
+.modal .header .links {
+    display: none;
+    float: right;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.modal .header .links a {
+    color: #fff;
+    padding: 0 8px;
+    border-right: 1px solid white;
+    float: left;
+}
+.modal .header .links a:last-child {
+    border-right: none;
+}
+
 /* Modal Content */
 .modal-content {
     background-color: rgba(0,0,0,0.8);
@@ -168,18 +201,20 @@ a:hover {
 }
 
 /* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
+.modal .close {
+    color: rgba(255, 255, 255, 0.7);
     font-size: 28px;
     font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
     text-decoration: none;
     cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+    color: #fff;
 }
 
 .icon {
@@ -229,5 +264,9 @@ a:hover {
 
     .modal-content {
         width: 80%;
+    }
+
+    .modal .header .links {
+        display: block;
     }
 }
