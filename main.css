@@ -37,7 +37,6 @@ html, body {
     position: absolute;
     top: 20px;
     left: 20px;
-    z-index: 400;
 }
 
 #logo img {
@@ -118,7 +117,6 @@ html, body {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 300; /* Sit on top */
-    padding-top: 20%; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -130,9 +128,9 @@ html, body {
 /* Modal Content */
 .modal-content {
     background-color: rgba(0,0,0,0.8);
-    margin: auto;
+    margin: 20px auto;
     padding: 20px;
-    width: 80%;
+    width: 90%;
     color: white;
     border-radius: 5px;
 }
@@ -199,5 +197,9 @@ html, body {
 
     #map {
         padding-right: 250px;
+    }
+
+    .modal-content {
+        width: 80%;
     }
 }
