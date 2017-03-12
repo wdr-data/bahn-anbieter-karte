@@ -23,7 +23,7 @@ html, body {
 }
 
 #map {
-    width: 100%;
+    transform-origin: top left;
 }
 
 #map_shield {
@@ -196,7 +196,7 @@ html, body {
     }
 
     #map {
-        padding-right: 250px;
+        /*padding-right: 250px;*/
     }
 
     .modal-content {

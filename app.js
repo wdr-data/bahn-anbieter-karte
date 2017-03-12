@@ -4,16 +4,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const maxWidth = 5000;
 
+    const transformMap = function() {
+        //console.log(mapPosition);
+        map.style.transform = 'scale(' + mapPosition.scale + ') translate(' + mapPosition.x / mapPosition.scale + 'px,' + mapPosition.y / mapPosition.scale + 'px)';
+    };
+
     const positionMap = function(x, y) {
         mapPosition.x = Math.max(Math.min(x, mapXmax), mapXmin);
         mapPosition.y = Math.max(Math.min(y, mapYmax), mapYmin);
-        map.style.transform = 'translate(' + mapPosition.x + 'px,' + mapPosition.y + 'px)';
+        transformMap();
     };
-    let mapXmin, mapYmin, mapXmax, mapYmax;
+    let mapXmin, mapYmin, mapXmax, mapYmax, mapWidthInit, mapHeightInit;
     const scaleMap = function(w) {
         mapPosition.w = w;
-        map.style.width = w + 'px';
-        mapPosition.h = map.getBoundingClientRect().height;
+        mapPosition.scale = w / mapWidthInit;
+        transformMap();
+
+        mapPosition.h = mapHeightInit * mapPosition.scale;
 
         mapXmax = 0;
         mapYmax = 0;
@@ -35,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const map = document.getElementById('map');
     const controls = document.getElementById('controls');
 
-    let mapPosition = { x: 0, y: 0, w: 0, h: 0 };
+    let mapPosition = { x: 0, y: 0, w: 0, h: 0, scale: 1 };
     let ratio = 1;
     let winWidth, winHeight, winRatio;
     const resizeHandler = function() {
@@ -53,18 +60,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const scaleRatio = width / mapPosition.w;
 
-        /**
-         * Derived from:
-         * oldCenter - newCenter + mapPosition
-         * (where newCenter = oldCenter * scaleRatio)
-        const x = (winWidth / 2 - mapPosition.x) - (winWidth / 2 - mapPosition.x) * scaleRatio + mapPosition.x;
-        const y = (winHeight / 2 - mapPosition.y) - (winHeight / 2 - mapPosition.y) * scaleRatio + mapPosition.y;
-         */
-        const x = (1-scaleRatio) * (winWidth/2) + scaleRatio * mapPosition.x;
-        const y = (1-scaleRatio) * (winHeight/2) + scaleRatio * mapPosition.y;
-
         scaleMap(width);
-        positionMap(x, y);
+
+        // find cursor offset within the element
+        const x = winWidth / 2 - map.getBoundingClientRect().left;
+        const y = winHeight / 2 - map.getBoundingClientRect().top;
+
+        // find the final position of the coordinate after scaling
+        const xf = x * scaleRatio;
+        const yf = y * scaleRatio;
+
+        // find the difference between the initial and final position
+        // and add the difference to the current position.
+        const dx = mapPosition.x - (xf - x);
+        const dy = mapPosition.y - (yf - y);
+
+        positionMap(dx, dy);
     };
 
     let provider_lines = {};
@@ -149,6 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // adjust initial map position
         const mapBB = map.getBoundingClientRect();
+        mapWidthInit = mapBB.width;
+        mapHeightInit = mapBB.height;
         ratio = mapBB.width / mapBB.height;
         if(winRatio > ratio) {
             scaleMap(winHeight * ratio);
