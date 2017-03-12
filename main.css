@@ -83,14 +83,18 @@ a:hover {
     top: 85px;
     bottom: 10px;
     max-width: 250px;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
     z-index: 200;
     transition: transform 500ms;
 }
 
 #controls.open .list {
     transform: translateX(0);
+}
+
+#controls .list-inner {
+    max-height: 100%;
+    overflow-y: scroll;
 }
 
 #controls .dropdown {
@@ -207,7 +211,12 @@ a:hover {
 @media only screen and (min-width: 768px) {
     #controls .list {
         transform: translateY(0);
-        padding-top: 10%;
+        pointer-events: none;
+        top: 120px;
+    }
+
+    #controls .list > * {
+        pointer-events: auto;
     }
 
     #controls .dropdown {
@@ -215,7 +224,7 @@ a:hover {
     }
 
     #map_scroller {
-        padding-right: 250px;
+        padding-right: 230px;
     }
 
     .modal-content {
