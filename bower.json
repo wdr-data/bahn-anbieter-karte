@@ -18,6 +18,7 @@
   "dependencies": {
     "normalize-css": "^5.0.0",
     "fastclick": "^1.0.6",
-    "interactjs": "^1.2.8"
+    "interactjs": "^1.2.8",
+    "fetch": "^2.0.3"
   }
 }
