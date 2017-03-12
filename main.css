@@ -195,8 +195,8 @@ html, body {
         display: none;
     }
 
-    #map {
-        /*padding-right: 250px;*/
+    #map_scroller {
+        padding-right: 250px;
     }
 
     .modal-content {

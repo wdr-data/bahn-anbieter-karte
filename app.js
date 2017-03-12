@@ -41,13 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // prepare map layout
     const map = document.getElementById('map');
     const controls = document.getElementById('controls');
+    const container = document.getElementById('map_scroller');
 
     let mapPosition = { x: 0, y: 0, w: 0, h: 0, scale: 1 };
     let ratio = 1;
     let winWidth, winHeight, winRatio;
     const resizeHandler = function() {
-        winWidth = window.innerWidth;
-        winHeight = window.innerHeight;
+        const offsetRight = getComputedStyle(container).paddingRight.replace('px', '');
+        winWidth = container.getBoundingClientRect().width - offsetRight;
+        winHeight = container.getBoundingClientRect().height;
         winRatio = winWidth / winHeight;
     };
     window.addEventListener('resize', resizeHandler);
