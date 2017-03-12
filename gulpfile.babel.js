@@ -2,8 +2,12 @@ import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import sass from 'node-sass';
+import ftp from 'vinyl-ftp';
+import dotenv from 'dotenv';
+import path from 'path';
 const $ = gulpLoadPlugins();
 
+dotenv.config({silent: true});
 const dist = 'dist';
 
 gulp.task('serve', ['map'], () => {
@@ -59,6 +63,18 @@ gulp.task('build', ['map'], () => {
         'fonts/**/*'
     ], { base: './' })
         .pipe(gulp.dest(dist));
+});
+
+gulp.task('upload', ['build'], () => {
+    const conn = ftp.create({
+        host: process.env.FTP_HOST,
+        user: process.env.FTP_USER,
+        pass: process.env.FTP_PASS
+    });
+
+    return gulp.src(path.join(dist, '**/*'), { buffer: false })
+        .pipe(conn.dest('/'))
+        .pipe(conn.clean('/**', dist, { base: '/' }));
 });
 
 gulp.task('default', ['build']);
