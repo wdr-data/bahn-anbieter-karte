@@ -129,9 +129,9 @@
                     const elem = svg.getElementById(line);
                     if(elem) {
                         if(key !== "") {
-                            elem.classList.add('disabled');
+                            elem.className.baseVal = 'disabled';
                         } else {
-                            elem.classList.remove('disabled');
+                            elem.className.baseVal = '';
                         }
                     }
                 });
@@ -144,7 +144,7 @@
             provider_lines[key].forEach(line => {
                 const elem = svg.getElementById(line);
                 if(elem) {
-                    elem.classList.remove('disabled');
+                    elem.className.baseVal = '';
                 }
             });
         };
