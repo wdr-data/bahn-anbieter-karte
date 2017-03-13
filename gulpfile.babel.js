@@ -78,9 +78,8 @@ gulp.task('upload', ['build'], () => {
         pass: process.env.FTP_PASS
     });
 
-    return gulp.src(path.join(dist, '**/*'), { buffer: false })
-        .pipe(conn.dest('/'))
-        .pipe(conn.clean('/**', dist, { base: '/' }));
+    return gulp.src(path.join(dist, '**'), { buffer: false })
+        .pipe(conn.dest('/'));
 });
 
 gulp.task('default', ['build']);
