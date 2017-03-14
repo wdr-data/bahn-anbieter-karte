@@ -3,7 +3,7 @@
         // remove click delay on mobile
         FastClick.attach(document.body);
 
-        const maxWidth = 5000;
+        const maxWidth = 6000;
 
         const calcBoxMargins = function(width, height) {
             const ratio = width / height;
@@ -38,6 +38,8 @@
         };
         let mapXmin, mapYmin, mapXmax, mapYmax, mapWidthInit, mapHeightInit;
         const scaleMap = function(w) {
+            w = Math.min(w, maxWidth);
+
             mapPosition.w = w;
             mapPosition.scale = w / mapWidthInit;
             transformMap();
