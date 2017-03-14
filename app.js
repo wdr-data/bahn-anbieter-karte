@@ -28,7 +28,6 @@
         };
 
         const transformMap = function() {
-            //console.log(mapPosition);
             map.style.transform = 'scale(' + mapPosition.scale + ') translate(' + mapPosition.x / mapPosition.scale + 'px,' + mapPosition.y / mapPosition.scale + 'px)';
         };
 
