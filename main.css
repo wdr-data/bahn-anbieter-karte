@@ -44,6 +44,9 @@ a:hover {
 #map {
     transform-origin: top left;
 }
+#map.animate {
+    transition: transform 400ms;
+}
 
 #map_shield {
     width: 100%;

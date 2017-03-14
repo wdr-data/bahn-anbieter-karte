@@ -51,6 +51,15 @@
             mapYmin = margins.minY;
         };
 
+        const scaleMapInit = function() {
+            if(winRatio > ratio) {
+                scaleMap(winHeight * ratio);
+            } else {
+                scaleMap(winWidth);
+            }
+            positionMap(mapXmax, mapYmax);
+        };
+
         // prepare map layout
         const map = document.getElementById('map');
         const controls = document.getElementById('controls');
@@ -131,6 +140,10 @@
             });
         };
 
+        map.classList.add('animate');
+        const animateDuration = getComputedStyle(map).transition.split(' ')[1].replace('s', '')*1000;
+        map.classList.remove('animate');
+
         const chose_provider = function(key) {
             controls.classList.remove('open');
 
@@ -150,15 +163,57 @@
             });
 
             if(key == "") {
+                scaleMapInit();
                 return;
             }
 
-            provider_lines[key].forEach(line => {
+            let bounds = {
+                left: 0, top: 0, right: mapWidthInit, bottom: mapHeightInit
+            };
+
+            provider_lines[key].forEach((line, index) => {
                 const elem = svg.getElementById(line);
-                if(elem) {
-                    elem.className.baseVal = '';
+                if(!elem) {
+                    return;
                 }
+
+                // remove classes
+                elem.className.baseVal = '';
+
+                // update bounds
+                const box = elem.getBoundingClientRect();
+                ['left', 'top'].forEach(key => {
+                    bounds[key] = index == 0 ? box[key] : Math.min(bounds[key], box[key]);
+                });
+                ['right', 'bottom'].forEach(key => {
+                    bounds[key] = index == 0 ? box[key] : Math.max(bounds[key], box[key]);
+                });
             });
+
+            // zoom map to bounds
+            map.classList.add('animate');
+            bounds.width = bounds.right - bounds.left;
+            bounds.height = bounds.bottom - bounds.top;
+            const scaleX = mapWidthInit / bounds.width;
+            const scaleY = mapHeightInit / bounds.height;
+            const boundRatio = bounds.width / bounds.height;
+            if(winRatio > boundRatio) {
+                scaleMap(winHeight * ratio * scaleY);
+                bounds.vpWidth = winHeight * boundRatio;
+                bounds.vpHeight = winHeight;
+            } else {
+                scaleMap(winWidth * scaleX);
+                bounds.vpWidth = winWidth;
+                bounds.vpHeight = winWidth / boundRatio;
+            }
+
+            const margins = calcBoxMargins(bounds.vpWidth, bounds.vpHeight);
+            positionMap(
+                -1 * bounds.left * mapPosition.scale + margins.maxX,
+                -1 * bounds.top * mapPosition.scale + margins.maxY
+            );
+
+            setTimeout(() => map.classList.remove('animate'), animateDuration);
         };
 
         const dragListener = function(e) {
@@ -174,12 +229,7 @@
             mapWidthInit = mapBB.width;
             mapHeightInit = mapBB.height;
             ratio = mapBB.width / mapBB.height;
-            if(winRatio > ratio) {
-                scaleMap(winHeight * ratio);
-            } else {
-                scaleMap(winWidth);
-            }
-            positionMap(mapXmax, mapYmax);
+            scaleMapInit();
 
             const target = document.getElementById('map_shield');
             target.addEventListener('wheel', e => {
