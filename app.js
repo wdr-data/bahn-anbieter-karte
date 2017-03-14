@@ -5,6 +5,28 @@
 
         const maxWidth = 5000;
 
+        const calcBoxMargins = function(width, height) {
+            const ratio = width / height;
+            let maxX = 0;
+            let maxY = 0;
+            let minX = -1 * (width - winWidth);
+            let minY = -1 * (height - winHeight);
+
+            if(width < winWidth || height < winHeight) {
+                if(winRatio > ratio) {
+                    maxX = Math.floor((winWidth - width) / 2);
+                    minX = Math.floor(minX / 2);
+                } else {
+                    maxY = Math.floor((winHeight - height) / 2);
+                    minY = Math.floor(minY / 2);
+                }
+            }
+
+            return {
+                maxX: maxX, maxY: maxY, minX: minX, minY: minY
+            }
+        };
+
         const transformMap = function() {
             //console.log(mapPosition);
             map.style.transform = 'scale(' + mapPosition.scale + ') translate(' + mapPosition.x / mapPosition.scale + 'px,' + mapPosition.y / mapPosition.scale + 'px)';
@@ -23,20 +45,11 @@
 
             mapPosition.h = mapHeightInit * mapPosition.scale;
 
-            mapXmax = 0;
-            mapYmax = 0;
-            mapXmin = -1 * (mapPosition.w - winWidth);
-            mapYmin = -1 * (mapPosition.h - winHeight);
-
-            if(mapPosition.w < winWidth || mapPosition.h < winHeight) {
-                if(winRatio > ratio) {
-                    mapXmax = Math.floor((winWidth - mapPosition.w) / 2);
-                    mapXmin = Math.floor(mapXmin / 2);
-                } else {
-                    mapYmax = Math.floor((winHeight - mapPosition.h) / 2);
-                    mapYmin = Math.floor(mapYmin / 2);
-                }
-            }
+            const margins = calcBoxMargins(mapPosition.w, mapPosition.h);
+            mapXmax = margins.maxX;
+            mapYmax = margins.maxY;
+            mapXmin = margins.minX;
+            mapYmin = margins.minY;
         };
 
         // prepare map layout
