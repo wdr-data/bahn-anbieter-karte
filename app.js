@@ -143,7 +143,7 @@
         };
 
         map.classList.add('animate');
-        const animateDuration = getComputedStyle(map).transition.split(' ')[1].replace('s', '')*1000;
+        const animateDuration = getComputedStyle(map)['transition-duration'].replace('s', '')*1000 || 1000;
         map.classList.remove('animate');
 
         const chose_provider = function(key) {
