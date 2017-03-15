@@ -12,6 +12,34 @@ Mit einer Online-Befragung erhebt WDR 2 drei Wochen lang die Meinung zu Regional
 
 Abstimmen unter: [Der große WDR 2 Bahncheck](http://www1.wdr.de/radio/wdr2/aktionen/bahn-check/index.html)
 
+## Credits
+Ein Dank an Busse und Bahnen NRW für das Bereitstellen des Streckenplans und der Daten.
+
+Umsetzung, Konzept, Grafik: Marcus Weiner, Patricia Ennenbach, Julian Rochlitzer
+Redaktion: Frank Kühn
+
+[Impressum](http://www1.wdr.de/impressum/index.html)
+
+## Rechtliches & Lizenzen
+
+### Lizenz
+
+Javascript, HTML & CSS sind unter der [MIT License](/LICENSE) frei nutzbar und weiterverbreitbar.
+Für die Karte von Busse & Bahnen NRW (`map.svg`) und die Schriften wird **kein Nutzungsrecht** eingeräumt.
+
+### Urheberrecht
+
+#### Karte
+`map.svg` - Copyright Busse & Bahnen NRW, erstellt durch Kompetenzcenter Integraler Taktfahrplan NRW (KCITF)
+
+#### Schriften
+**TheSans** - Copyright Luc(as) de Groot. All rights reserved. Published by LucasFonts.com
+
+**WDR Slab** - Copyright Westdeutscher Rundfunk
+
+#### Restliche Inhalte
+Copyright Westdeutscher Rundfunk Köln
+
 ## Eingesetzte Technologie
 - Javascript (VanillaJS & ES6)
 - SVG (skalierbare & manipulierbare Karte)
@@ -34,33 +62,6 @@ gulp serve
 ```
 gulp build
 ```
-## Credits
-Ein Dank an Busse und Bahnen NRW für das Bereitstellen des Streckenplans und der Daten.
-
-Umsetzung, Konzept, Grafik: Marcus Weiner, Patricia Ennenbach, Julian Rochlitzer
-Redaktion: Frank Kühn
-
-[Impressum](http://www1.wdr.de/impressum/index.html)
-
-## Rechtliches & Lizenzen
-
-### Urheberrecht
-
-#### Karte
-`map.svg` - Copyright Busse & Bahnen NRW, erstellt durch Kompetenzcenter Integraler Taktfahrplan NRW (KCITF)
-
-#### Schriften
-**TheSans** - Copyright Luc(as) de Groot. All rights reserved. Published by LucasFonts.com
-
-**WDR Slab** - Copyright Westdeutscher Rundfunk
-
-#### Restliche Inhalte
-Copyright Westdeutscher Rundfunk Köln
-
-### Lizenz
-
-Javascript, HTML & CSS sind unter der [MIT License](/LICENSE) frei nutzbar und weiterverbreitbar.
-Für die Karte von Busse & Bahnen NRW (`map.svg`) und die Schriften wird **kein Nutzungsrecht** eingeräumt.
 
 ### Gewährleistungsausschluss
 Es besteht keinerlei Gewährleistung für das Programm, soweit dies gesetzlich zulässig ist. Sofern nicht anderweitig schriftlich bestätigt, stellen die Urheberrechtsinhaber und/oder Dritte das Programm so zur Verfügung, „wie es ist“, ohne irgendeine Gewährleistung. Das volle Risiko bezüglich Qualität und Leistungsfähigkeit des Programms liegt bei Ihnen.
