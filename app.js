@@ -5,6 +5,10 @@
 
         const maxWidth = 6000;
 
+        const map = document.getElementById('map');
+        const controls = document.getElementById('controls');
+        const container = document.getElementById('map_scroller');
+
         const calcBoxMargins = function(width, height) {
             const ratio = width / height;
             let maxX = 0;
@@ -62,11 +66,17 @@
             positionMap(mapXmax, mapYmax);
         };
 
-        // prepare map layout
-        const map = document.getElementById('map');
-        const controls = document.getElementById('controls');
-        const container = document.getElementById('map_scroller');
+        map.classList.add('animate');
+        const animateDuration = getComputedStyle(map)['transition-duration'].replace('s', '')*1000 || 1000;
+        map.classList.remove('animate');
 
+        const animateMap = function(fn) {
+            map.classList.add('animate');
+            fn();
+            setTimeout(() => map.classList.remove('animate'), animateDuration);
+        };
+
+        // prepare map layout
         let mapPosition = { x: 0, y: 0, w: 0, h: 0, scale: 1 };
         let ratio = 1;
         let winWidth, winHeight, winRatio;
@@ -142,10 +152,6 @@
             });
         };
 
-        map.classList.add('animate');
-        const animateDuration = getComputedStyle(map)['transition-duration'].replace('s', '')*1000 || 1000;
-        map.classList.remove('animate');
-
         const chose_provider = function(key) {
             controls.classList.remove('open');
 
@@ -165,7 +171,7 @@
             });
 
             if(key == "") {
-                scaleMapInit();
+                animateMap(scaleMapInit);
                 return;
             }
 
@@ -200,29 +206,30 @@
                 right: bounds.right + borderSize,
                 bottom: bounds.bottom + borderSize
             };
-            map.classList.add('animate');
             bounds.width = bounds.right - bounds.left;
             bounds.height = bounds.bottom - bounds.top;
             const scaleX = mapWidthInit / bounds.width;
             const scaleY = mapHeightInit / bounds.height;
             const boundRatio = bounds.width / bounds.height;
+            let width = winWidth;
             if(winRatio > boundRatio) {
-                scaleMap(winHeight * ratio * scaleY);
+                width = winHeight * ratio * scaleY;
                 bounds.vpWidth = winHeight * boundRatio;
                 bounds.vpHeight = winHeight;
             } else {
-                scaleMap(winWidth * scaleX);
+                width = winWidth * scaleX;
                 bounds.vpWidth = winWidth;
                 bounds.vpHeight = winWidth / boundRatio;
             }
-
             const margins = calcBoxMargins(bounds.vpWidth, bounds.vpHeight);
-            positionMap(
-                -1 * bounds.left * mapPosition.scale + margins.maxX,
-                -1 * bounds.top * mapPosition.scale + margins.maxY
-            );
 
-            setTimeout(() => map.classList.remove('animate'), animateDuration);
+            animateMap(() => {
+                scaleMap(width);
+                positionMap(
+                    -1 * bounds.left * mapPosition.scale + margins.maxX,
+                    -1 * bounds.top * mapPosition.scale + margins.maxY
+                );
+            });
         };
 
         const dragListener = function(e) {
