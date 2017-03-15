@@ -193,6 +193,13 @@
             });
 
             // zoom map to bounds
+            const borderSize = 15; // in px (system of map)
+            bounds = {
+                left: bounds.left - borderSize,
+                top: bounds.top - borderSize,
+                right: bounds.right + borderSize,
+                bottom: bounds.bottom + borderSize
+            };
             map.classList.add('animate');
             bounds.width = bounds.right - bounds.left;
             bounds.height = bounds.bottom - bounds.top;
